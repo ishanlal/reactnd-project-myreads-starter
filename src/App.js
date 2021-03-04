@@ -1,5 +1,5 @@
 import React from 'react'
-// import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from './BooksAPI'
 import './App.css'
 
 class BooksApp extends React.Component {
@@ -10,8 +10,34 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
+     books: [],
+     s_books: [],
+     query: '',
     showSearchPage: false
   }
+
+  updateQuery = (query) => {
+  this.setState(() => ({
+    query: query,
+  }));
+  BooksAPI.search(query.trim()).then((results) => {
+    this.setState(() => ({ s_books: results }));
+  });
+};
+
+  clearQuery = () =>{
+    this.updateQuery('')
+  }
+
+componentDidMount() {
+    BooksAPI.getAll()
+    .then((books)=> {
+      this.setState(() => ({
+        books
+      }))
+    })
+  }
+
 
   render() {
     return (
@@ -29,8 +55,16 @@ class BooksApp extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
-
+                <input type="text"
+                       placeholder="Search by title or author"
+                       value={this.state.query}
+                       onChange={(e) => this.updateQuery(e.target.value)}
+                       />
+                {
+                          this.state.query !== '' &&
+                          (<div className="displaySearchResults">
+                            <p>{this.state.query}</p>
+        				            </div>)}
               </div>
             </div>
             <div className="search-books-results">
