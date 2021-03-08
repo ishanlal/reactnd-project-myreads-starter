@@ -23,6 +23,17 @@ updateQuery = (query) => {
         get_all_books: books
       }))
     })
+    this.state.searched_books.forEach((item, i) => {
+      //item ['shelf'] = 'none';
+    //  let active_book_match = this.state.get_all_books.filter((b) => {return b.id === item.id});
+    //  console.log('hi', active_book_match);
+    //  if (!active_book_match)
+    //  {
+    //    item ['shelf'] = active_book_match.shelf;
+    //  }
+    });
+
+    //this.setState((oldState) => ({ searched_books: [...oldState.searched_books] }));
   }
   });
 };
@@ -42,7 +53,19 @@ handleBookSelect = (book, val) => {
     })
 };
 
+
 render() {
+  this.state.searched_books.forEach((item, i) => {
+    let active_book_match = this.state.get_all_books.filter((b) => {return b.id === item.id});
+    console.log('hi', active_book_match);
+    if (active_book_match === undefined && item.shelf !== 'none')
+    {
+      item ['shelf'] = 'none';
+    }
+    else{
+      item ['shelf'] = active_book_match.shelf;
+    }
+  });
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -73,9 +96,14 @@ render() {
                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks ? book.imageLinks.thumbnail : ''})`}}>
               </div>
               <div className="book-shelf-changer">
-              {//this.state.get_all_books.filter((b) => { return b.id === book.id })
+              {   //let active_book_match;
+                   //this.state.get_all_books.filter((b) => { return b.id === book.id })
+                  //active_book_match = this.state.get_all_books.filter((b) => {return b.id === book.id})
+                  //console.log('hi', active_book_match);
+                  //active_book_match ? book.shelf = active_book_match.shelf : 'none'
+                //<select value={(this.state.get_all_books.filter((b) => { return b.id === book.id })) ? (this.state.get_all_books.filter((b) => { return b.id === book.id })).shelf : ('none')} onChange={(e) => this.handleBookSelect(book, e.target.value)}>
               }
-                <select value={(this.state.get_all_books.filter((b) => { return b.id === book.id })) ? (this.state.get_all_books.filter((b) => { return b.id === book.id })).shelf : ('none')} onChange={(e) => this.handleBookSelect(book, e.target.value)}>
+                <select value={book.shelf} onChange={(e) => this.handleBookSelect(book, e.target.value)}>
                   <option value="move" disabled>Move to...</option>
                   <option value="currentlyReading">Currently Reading</option>
                   <option value="wantToRead">Want to Read</option>
