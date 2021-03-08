@@ -11,26 +11,30 @@ class Search extends Component {
 
 updateQuery = (query) => {
   this.setState( () => ({query: query}) );
-  BooksAPI.search(query.trim()).then((results) => {  this.setState(() => ({ searched_books: results }));  });
+  BooksAPI.search(query.trim()).then((results) => {
+    if (results === undefined || results.error){
+    this.setState(() => ({ searched_books: [] }));
+  }
+  else{
+    this.setState(() => ({ searched_books: results }));
+  }
+  });
 };
 
 clearQuery = () => {
   this.updateQuery('');
 };
 
-handleBookSelect = book => event => {
-    BooksAPI.update(book, event.target.value);
+handleBookSelect = (book, val) => {
+    BooksAPI.update(book, val);
     console.log('updated');
+    BooksAPI.getAll()
+    .then((books)=> {
+      this.setState(() => ({
+        get_all_books: books
+      }))
+    })
 };
-
-componentDidMount() {
-  BooksAPI.getAll()
-  .then((books)=> {
-    this.setState(() => ({
-      get_all_books: books
-    }))
-  })
-}
 
 render() {
   return (
@@ -64,7 +68,7 @@ render() {
               }}>
               </div>
                 <div className="book-shelf-changer">
-                  <select value={book.shelf ? book.shelf : "none"} onChange={(e) => this.handleBookSelect(book, e)}>
+                  <select value={book.shelf ? book.shelf : "none"} onChange={(e) => this.handleBookSelect(book, e.target.value)}>
                     <option value="move" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>
