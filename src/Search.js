@@ -5,7 +5,8 @@ import './App.css';
 class Search extends Component {
   state = {
     query: '',
-    searched_books: []
+    searched_books: [],
+    get_all_books: []
   }
 
 updateQuery = (query) => {
@@ -17,10 +18,19 @@ clearQuery = () => {
   this.updateQuery('');
 };
 
-handleBookSelect = (book, shelf_name) => {
-    BooksAPI.update(book, shelf_name);
+handleBookSelect = book => event => {
+    BooksAPI.update(book, event.target.value);
     console.log('updated');
 };
+
+componentDidMount() {
+  BooksAPI.getAll()
+  .then((books)=> {
+    this.setState(() => ({
+      get_all_books: books
+    }))
+  })
+}
 
 render() {
   return (
@@ -50,23 +60,21 @@ render() {
             <li key={book.id} className='book-list-item'>
             <div className="book">
               <div className="book-top">
-                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})`
+                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks ? book.imageLinks.thumbnail : ''})`
               }}>
               </div>
                 <div className="book-shelf-changer">
-                  <select>
+                  <select value={book.shelf ? book.shelf : "none"} onChange={(e) => this.handleBookSelect(book, e)}>
                     <option value="move" disabled>Move to...</option>
-                    <option value="currentlyReading" onSelect={ () => {this.handleBookSelect(book, "currentlyReading")} }>Currently Reading</option>
-                    <option value="wantToRead" onSelect={ () => {this.handleBookSelect(book, "wantToRead")} }>Want to Read</option>
-                    <option value="read" onSelect={ () => {this.handleBookSelect(book, "read")} }>Read</option>
-                    <option value="none" onSelect={ () => {this.handleBookSelect(book, "none")} }>None</option>
+                    <option value="currentlyReading">Currently Reading</option>
+                    <option value="wantToRead">Want to Read</option>
+                    <option value="read">Read</option>
+                    <option value="none">None</option>
                   </select>
                 </div>
               </div>
               <div className="book-title">{book.title}</div>
-              <div className="book-authors">{book.authors}</div>
-              {//!book.authors[0] && (book.authors.map((auth) => (<p>{auth}</p>)))
-              }
+              <div className="book-authors">{book.authors && book.authors.map((auth) => <p>{auth}</p>)}</div>
             </div>
           </li>
         ))}
