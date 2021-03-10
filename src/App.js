@@ -33,7 +33,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <Search onToggleVar={this.toggleVar} />
+          <Search onToggleVar={this.toggleVar} selected_books={this.state.all_books}/>
           ) : (
           <div className="list-books">
             <div className="list-books-title">
