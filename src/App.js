@@ -85,9 +85,9 @@ class BooksApp extends React.Component {
             </div>
           </div>
         )} />
-          <Route path='/search' render={({history}) => ( <Search selected_books={this.state.all_books} onHandleBookUpdate={() => {
-            this.handleBookUpdate
-            history.push('/') } } />
+          <Route path='/search' render={({history}) => ( <Search selected_books={this.state.all_books} onHandleBookUpdate={(book, val) => {
+            this.handleBookUpdate(book, val);
+            history.push('/'); } } />
           )} />
           {//<Search onToggleVar={this.toggleVar} selected_books={this.state.all_books} onHandleBookUpdate={this.handleBookUpdate} />
           }
