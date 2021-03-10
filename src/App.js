@@ -8,8 +8,7 @@ import {Link} from 'react-router-dom'
 
 class BooksApp extends React.Component {
   state = {
-     all_books: [],
-     showSearchPage: false
+     all_books: []
   }
 
   toggleVar = () => {
@@ -80,14 +79,14 @@ class BooksApp extends React.Component {
               <Link
                 to='/search'
                 className='add-a-book'>
-              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+              <button>Add a book</button>
               </Link>
             </div>
           </div>
         )} />
           <Route path='/search' render={({history}) => ( <Search selected_books={this.state.all_books} onHandleBookUpdate={(book, val) => {
             this.handleBookUpdate(book, val);
-            history.push('/'); } } />
+             } } />
           )} />
           {//<Search onToggleVar={this.toggleVar} selected_books={this.state.all_books} onHandleBookUpdate={this.handleBookUpdate} />
           }

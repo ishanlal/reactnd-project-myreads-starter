@@ -53,7 +53,7 @@ render() {
         <Link
           className='close-search'
           to='/'>
-          <button className="close-search" onClick={() => this.props.onToggleVar()}>Close</button>
+          <button className="close-search">Close</button>
         </Link>
         <div className="search-books-input-wrapper">
           <input type="text"
