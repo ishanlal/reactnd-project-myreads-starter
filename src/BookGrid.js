@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 class BookGrid extends Component {
-
+  static propTypes = {
+    books: PropTypes.array.isRequired,
+    onHandleShelfSelect: PropTypes.func.isRequired,
+  }
 render() {
+
   return ( this.props.booksWithShelfInfo.map((book) => (
             <li key={book.id} className='book-list-item'>
             <div className="book">

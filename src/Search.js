@@ -15,6 +15,7 @@ updateQuery = (query) => {
   BooksAPI.search(query.trim()).then((results) => {
     if (results === undefined || results.error){
     this.setState(() => ({ searched_books: [] }));
+    this.setState(() => ({ booksWithShelfInfo: [] }));
   }
   else{
     this.setState(() => ({ searched_books: results }));

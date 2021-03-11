@@ -27,13 +27,9 @@ class BooksApp extends React.Component {
 );
   }
 
-  componentDidMount() {
-    BooksAPI.getAll()
-    .then((books)=> {
-      this.setState(() => ({
-        all_books: books
-      }))
-    })
+  async componentDidMount() {
+    const books = await BooksAPI.getAll();
+    this.setState({all_books: books});
   }
   render() {
     const read_books = this.state.all_books.filter((book) => book.shelf === 'read');
