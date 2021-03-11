@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class BookGrid extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired,
+    booksWithShelfInfo: PropTypes.array.isRequired,
     onHandleShelfSelect: PropTypes.func.isRequired,
   }
 render() {
