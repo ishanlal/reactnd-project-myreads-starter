@@ -20,7 +20,7 @@ render() {
               </div>
               </div>
               <div className="book-title">{book.title}</div>
-              <div className="book-authors">{book.authors && book.authors.map((auth) => <p>{auth}</p>)}</div>
+              <div className="book-authors">{book.authors && book.authors.map((auth) => <p key={auth}>{auth}</p>)}</div>
             </div>
           </li>
         )));
